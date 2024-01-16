@@ -15,12 +15,7 @@ class BaseModel:
             self.updated_at = datetime.now()
             storage.new(self)
         else:
-            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            del kwargs['__class__']
-            self.__dict__.update(kwargs)
+            self.create(**kwargs)
 
     def __str__(self):
         """Returns a string representation of the instance"""
@@ -42,3 +37,21 @@ class BaseModel:
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
         return dictionary
+
+    def create(self, **kwargs):
+        """Creates a BaseModel from a dictionary"""
+        from models import storage
+        for k, v in kwargs.items():
+            if k != '__class__':
+                setattr(self, k, v)
+        if kwargs.get("updated_at", None) and type(self.updated_at) is str:
+            self.updated_at = datetime.fromisoformat(kwargs["updated_at"])
+        else:
+            self.updated_at = datetime.now()
+        if kwargs.get("created_at", None) and type(self.created_at) is str:
+            self.created_at = datetime.fromisoformat(kwargs["created_at"])
+        else:
+            self.created_at = datetime.now()
+        if kwargs.get("id", None) is None:
+            self.id = str(uuid.uuid4())
+        storage.new(self)
