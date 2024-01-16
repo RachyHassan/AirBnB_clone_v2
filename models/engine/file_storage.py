@@ -9,12 +9,12 @@ class FileStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
-        if cls == None:
-            return FileStorage.__objects
+        if cls is None:
+            return self.__objects
         # if it's not None, filter by class.
         else:
-            filtered_cls = {k: v for k, v in FileStorage.__objects.items()
-                            if isinstance(v, cls)}
+            filtered_cls = {k: v for k, v in self.__objects.items()
+                            if cls == v.__class__ or v == v.__class__.__name__}
             return filtered_cls
 
     def new(self, obj):
@@ -58,8 +58,4 @@ class FileStorage:
         if obj is None:
             return
         key = "{}.{}".format(obj.__class__.__name__, obj.id)
-
-        try:
-            del self.__objects[key]
-        except KeyError:
-            return
+        self.__objects.pop(key, None)
