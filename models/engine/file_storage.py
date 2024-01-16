@@ -13,6 +13,10 @@ class FileStorage:
         if cls == None:
             return FileStorage.__objects
         # if it's not None, filter by class.
+        else:
+            filtered_cls = {k: v for k, v in FileStorage.__objects.items()
+                            if isinstance(v, cls)}
+        return filtered_cls
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -52,6 +56,6 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        if obj == None:
+        if obj is None or obj.id not in self.__objects:
             return
         del self.__objects[obj.id]
