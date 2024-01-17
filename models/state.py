@@ -17,7 +17,7 @@ class State(BaseModel, Base):
     else:
         name = ""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """ Initializes the basemodel class """
         super().__init__(*args, **kwargs)
 

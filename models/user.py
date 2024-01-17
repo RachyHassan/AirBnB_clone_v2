@@ -31,6 +31,6 @@ class User(BaseModel, Base):
         first_name = ""
         last_name = ""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """ Initializes the basemodel class """
         super().__init__(*args, **kwargs)
