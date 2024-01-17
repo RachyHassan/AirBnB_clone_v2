@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
+from models.base_model import BaseModel
 
 class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
@@ -25,10 +26,11 @@ class FileStorage:
         """Saves storage dictionary to file"""
         with open(FileStorage.__file_path, 'w') as f:
             temp = {}
-            temp.update(FileStorage.__objects)
-            for key, val in temp.items():
-                temp[key] = val.to_dict()
-            json.dump(temp, f)
+            for key, val in FileStorage.__objects.items():
+                #only include instance of BaseModel
+                if isinstance(val, BaseModel):
+                    temp[key] = val.to_dict()
+            json.dump(temp, f, default=lambda o: o.__dict__)
 
     def reload(self):
         """Loads storage dictionary from file"""
