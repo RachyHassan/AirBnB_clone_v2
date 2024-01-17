@@ -4,6 +4,8 @@ from models.base_model import BaseModel, Base
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Table, String, Integer, Float, ForeignKey
 from models import storage_type
+from sqlalchemy.orm import relationship
+from models.review import Review
 
 
 class Place(BaseModel, Base):
@@ -21,6 +23,7 @@ class Place(BaseModel, Base):
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
         # amenity_ids = []
+        reviews = relationship("Review", backref="place")
     else:
         city_id = ""
         user_id = ""
@@ -37,3 +40,15 @@ class Place(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """ Initializes the basemodel class """
         super().__init__(*args, **kwargs)
+
+    if storage_type != "db":
+        @property
+        def reviews(self):
+            """ Returns the list of cities in the filestorage """
+            from models import storage
+            all_review = storage.all(Review)
+            all_review_match = []
+            for review in all_review:
+                if all_review.place_id == self.id:
+                    all_review_match.append(review)
+            return all_review_match
