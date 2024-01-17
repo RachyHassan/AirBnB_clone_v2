@@ -3,7 +3,7 @@
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
-from models import storage, storage_type
+from models import storage_type
 from models.city import City
 
 
@@ -25,6 +25,7 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """ Returns the list of cities in the filestorage """
+            from models import storage
             all_city = storage.all(City)
             all_city_match = []
             for city in all_city:
