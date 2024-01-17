@@ -3,7 +3,6 @@
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
 from datetime import datetime
-from sqlalchemy.orm import declarative_base
 from sqlalchemy import MetaData, Column, String, DateTime
 from models import storage
 from os import getenv
@@ -16,7 +15,6 @@ if storage_type == "db":
 else:
     Base = object
 
-Base = declarative_base()
 
 class BaseModel:
     """A base class for all hbnb models"""
