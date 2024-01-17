@@ -4,12 +4,12 @@ from sqlalchemy.ext.declarative import declarative_base
 import uuid
 from datetime import datetime
 from sqlalchemy import MetaData, Column, String, DateTime
-from models import storage
-from os import getenv
+from models import storage, storage_type
+# from os import getenv
 
 
 mymetadata = MetaData()
-storage_type = getenv('HBNB_TYPE_STORAGE')
+
 if storage_type == "db":
     Base = declarative_base(metadata=mymetadata)
 else:
