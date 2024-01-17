@@ -5,6 +5,7 @@ from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
 from models.place import Place
 from models.base_model import BaseModel, Base
+from models import storage_type
 
 
 class User(BaseModel, Base):
@@ -17,9 +18,19 @@ class User(BaseModel, Base):
         first_name: user's first name.
         last_name: user's last name.
     """
-    __tablename__ = "users"
-    email = Column(String(128), nullable=False)
-    password = Column(String(128), nullable=False)
-    first_name = Column(String(128))
-    last_name = Column(String(128))
-    places = relationship("Place", backref="user")
+    if storage_type == "db":
+        __tablename__ = "users"
+        email = Column(String(128), nullable=False)
+        password = Column(String(128), nullable=False)
+        first_name = Column(String(128))
+        last_name = Column(String(128))
+        places = relationship("Place", backref="user")
+    else:
+        email = ""
+        password = ""
+        first_name = ""
+        last_name = ""
+
+    def __init__(self):
+        """ Initializes the basemodel class """
+        super().__init__(*args, **kwargs)
