@@ -44,7 +44,7 @@ class Place(BaseModel, Base):
     if storage_type != "db":
         @property
         def reviews(self):
-            """ Returns the list of cities in the filestorage """
+            """ Returns the list of reviews in the filestorage """
             from models import storage
             all_review = storage.all(Review)
             all_review_match = []
