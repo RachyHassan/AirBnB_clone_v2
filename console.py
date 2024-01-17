@@ -231,21 +231,34 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
-        print_list = []
+        # print_list = []
 
-        if args:
-            args = args.split(' ')[0]  # remove possible trailing args
-            if args not in HBNBCommand.classes:
-                print("** class doesn't exist **")
-                return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+        # if args:
+        #     args = args.split(' ')[0]  # remove possible trailing args
+        #     if args not in HBNBCommand.classes:
+        #         print("** class doesn't exist **")
+        #         return
+        #     for k, v in storage._FileStorage__objects.items():
+        #         if k.split('.')[0] == args:
+        #             print_list.append(str(v))
+        # else:
+        #     for k, v in storage._FileStorage__objects.items():
+        #         print_list.append(str(v))
+
+        # print(print_list)
+        my_ls = []
+        all_files = storage.all()
+        if len(arg) == 0:
+            for fs in all_files.values():
+                my_ls.append(fs.__str__())
+            print("{}".format(my_ls))
+        elif arg not in self.models.keys():
+            print("** class doesn't exist **")
         else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
-
-        print(print_list)
+            for v in all_files.values():
+                if v.__class__.__name__ == arg:
+                    my_ls.append(v.__str__())
+            print("{}".format(my_ls))
 
     def help_all(self):
         """ Help information for the all command """
