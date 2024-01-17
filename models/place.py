@@ -49,6 +49,6 @@ class Place(BaseModel, Base):
             all_review = storage.all(Review)
             all_review_match = []
             for review in all_review:
-                if all_review.place_id == self.id:
+                if review.place_id == self.id:
                     all_review_match.append(review)
             return all_review_match
