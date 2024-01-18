@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, storage_type, Base
 from sqlalchemy import Column, String, ForeignKey
 
+
 class Review(BaseModel, Base):
     """ Review classto store review information """
     if storage_type == "db":
@@ -14,7 +15,6 @@ class Review(BaseModel, Base):
         place_id = ""
         user_id = ""
         text = ""
-
 
     def __init__(self, *args, **kwargs):
         """ Initializes the basemodel class """

@@ -31,16 +31,14 @@ class DBStorage():
     __engine = None
     __session = None
 
-
-
     def __init__(self):
         """ Initializes the DBStorage class """
         self.__engine = create_engine("mysql+mysqldb://{}:{}@localhost:3306/{}"
                                       .format(HBNB_MYSQL_USER,
                                               HBNB_MYSQL_PWD,
                                               HBNB_MYSQL_DB),
-                                              pool_pre_ping=True)
-        
+                                      pool_pre_ping=True)
+
         # Session.configure(bind=self.__engine)
         if HBNB_ENV == 'test':
             Base.metadata.drop_all(bind=self.__engine)
@@ -81,4 +79,3 @@ class DBStorage():
         our_session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(our_session)
         self.__session = Session()
-
