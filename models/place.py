@@ -6,6 +6,15 @@ from sqlalchemy import Column, Table, String, Integer, Float, ForeignKey
 from models import storage_type
 from sqlalchemy.orm import relationship
 from models.review import Review
+from models.amenity import Amenity
+
+
+place_amenity = Table('place_amenity', Base.metadata,
+    Column('place_id', String(60), ForeignKey('places.id'), 
+            primary_key=True, nullable=False),
+    Column('amenity_id', String(60), ForeignKey('amenities.id'),
+            primary_key=True, nullable=False)
+)
 
 
 class Place(BaseModel, Base):
@@ -22,7 +31,7 @@ class Place(BaseModel, Base):
         price_by_night = Column(Integer, nullable=False, default=0)
         latitude = Column(Float, nullable=True)
         longitude = Column(Float, nullable=True)
-        # amenity_ids = []
+        amenities = relationship("Amenity", secondary="place_amenity", viewonly=False)
         reviews = relationship("Review", backref="place")
     else:
         city_id = ""
@@ -52,3 +61,14 @@ class Place(BaseModel, Base):
                 if review.place_id == self.id:
                     all_review_match.append(review)
             return all_review_match
+
+        @property
+        def amenities(self):
+            """ Returns the list of amenities in the filestorage """
+            from models import storage
+            all_amen = storage.all(Amenity)
+            all_amen_match = []
+            for amenity in all_amen:
+                if amenity.place_id == self.id:
+                    all_amen_match.append(amenity)
+            return all_amen_match
