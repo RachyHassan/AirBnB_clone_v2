@@ -21,7 +21,7 @@ echo "$content" > /data/web_static/releases/test/index.html
 # A symbolic link /data/.../current linked to /data/.../test/ folder
 ln -sfn /data/web_static/releases/test/ /data/web_static/current
 
-chown -R "$USER":"$USER" /data/
+chown -R "ubuntu":"ubuntu" /data/
 cp -a /etc/nginx/sites-available/default{,.orig}
 
 # Update the Nginx configuration to serve the content
@@ -47,9 +47,8 @@ config_file="server {
 
         location /hbnb_static {
                 alias /data/web_static/current/;
-                autoindex off; 
         }
 }"
 
-echo "${config_file}" > /etc/nginx/sites-available/default
+echo "${config_file}" > /etc/nginx/sites-enabled/default
 service nginx restart
