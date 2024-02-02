@@ -16,11 +16,11 @@ content="<html>
     Holberton School
   </body>
 </html>"
-echo "$content" | tee /data/web_static/releases/test/index.html
+echo "$content" > /data/web_static/releases/test/index.html
 
 # A symbolic link /data/.../current linked to /data/.../test/ folder
 ln -sf /data/web_static/releases/test/ /data/web_static/current
-chown -hR "ubuntu":"ubuntu" /data/
+chown -R "ubuntu":"ubuntu" /data/
 cp -a /etc/nginx/sites-available/default{,.orig}
 
 # Update the Nginx configuration to serve the content
@@ -48,5 +48,5 @@ config_file="server {
         }
 }"
 
-echo "${config_file}" | tee /etc/nginx/sites-available/default
+echo "${config_file}" > /etc/nginx/sites-available/default
 service nginx restart
