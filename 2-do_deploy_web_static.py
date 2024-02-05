@@ -38,6 +38,7 @@ def do_deploy(archive_path):
     # Returns True if all operations have been done correctly,
     # otherwise returns False
 
+
 # All remote commands must be executed on your both web servers
 # (using env.hosts = ['<IP web-01>', 'IP web-02'] variable in your script)
 env.hosts = ['54.236.47.245', '100.26.156.253']
