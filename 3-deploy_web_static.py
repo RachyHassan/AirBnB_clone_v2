@@ -41,6 +41,7 @@ def do_deploy(archive_path):
 
 
 def deploy():
+    """Packs and Deploys the website in one file"""
     archive_path = do_pack()
     if bool(archive_path):
         return do_deploy(archive_path=archive_path)
