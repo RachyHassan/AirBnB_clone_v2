@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Compress before sending"""
-from fabric.api import put, run, env, local
+from fabric.api import local
+from fabric.operations import put, sudo, env
 from datetime import datetime
 import os
 
@@ -25,19 +26,24 @@ def do_pack():
 
 def do_deploy(archive_path):
     """distributes an archive to your web servers"""
-    if os.path.exists(archive_path):
+    if not os.path.exists(archive_path):
+        return False
+    try:
         put(archive_path, "/tmp/")
         archive = archive_path.split('/')[-1]
         archive_no_ext = archive.split('.')[0]
         new_version = "/data/web_static/releases/" + archive_no_ext
-        run("sudo mkdir -p {}".format(new_version))
-        run("sudo tar -zxf /tmp/{} -C {}/".format(archive, new_version))
-        run("sudo rm -f /tmp/{}".format(archive))
-        run("sudo rm -rf /data/web_static/current")
-        run("sudo ln -s {} /data/web_static/current".format(new_version))
+        sudo("mkdir -p {}".format(new_version))
+        sudo("tar -zxf /tmp/{} -C {}/".format(archive, new_version))
+        sudo("rm -f /tmp/{}".format(archive))
+        sudo("mv {}/web_static/* {}/".format(new_version, new_version))
+        sudo("rm -rf {}/web_static".format(new_version))
+        sudo("rm -rf /data/web_static/current")
+        sudo("ln -s {} /data/web_static/current".format(new_version))
         print("New version deployed!")
         return True
-    return False
+    except Exception:
+        return False
 
 
 def deploy():
