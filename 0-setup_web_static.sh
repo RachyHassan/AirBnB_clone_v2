@@ -20,7 +20,7 @@ echo "$content" > /data/web_static/releases/test/index.html
 
 # A symbolic link /data/.../current linked to /data/.../test/ folder
 ln -sf /data/web_static/releases/test/ /data/web_static/current
-chown -R "ubuntu":"ubuntu" /data/
+chown -R "ubuntu:ubuntu" /data/
 cp -a /etc/nginx/sites-available/default{,.orig}
 
 # Update the Nginx configuration to serve the content
