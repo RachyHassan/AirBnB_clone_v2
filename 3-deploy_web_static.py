@@ -31,13 +31,12 @@ def do_deploy(archive_path):
     try:
         put(archive_path, "/tmp/")
         archive = archive_path.split('/')[-1]
-        archive_no_ext = archive.split('.')[0]
+        archive_no_ext = archive.strip('.tgz')
         new_version = "/data/web_static/releases/" + archive_no_ext
         sudo("mkdir -p {}".format(new_version))
         sudo("tar -zxf /tmp/{} -C {}/".format(archive, new_version))
         sudo("rm -f /tmp/{}".format(archive))
         sudo("mv {}/web_static/* {}/".format(new_version, new_version))
-        sudo("rm -rf {}/web_static".format(new_version))
         sudo("rm -rf /data/web_static/current")
         sudo("ln -s {} /data/web_static/current".format(new_version))
         print("New version deployed!")
@@ -49,7 +48,7 @@ def do_deploy(archive_path):
 def deploy():
     """Packs and Deploys the website in one file"""
     archive_path = do_pack()
-    if bool(archive_path):
+    if bool(archive_path) == True:
         return do_deploy(archive_path=archive_path)
     else:
         return False
