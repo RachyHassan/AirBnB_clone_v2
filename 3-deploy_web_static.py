@@ -41,14 +41,13 @@ def do_deploy(archive_path):
         sudo("ln -s {} /data/web_static/current".format(new_version))
         print("New version deployed!")
         return True
-    except Exception:
+    except:
         return False
 
 
 def deploy():
     """Packs and Deploys the website in one file"""
     archive_path = do_pack()
-    if bool(archive_path) == True:
-        return do_deploy(archive_path=archive_path)
-    else:
+    if archive_path is None:
         return False
+    return do_deploy(archive_path)
