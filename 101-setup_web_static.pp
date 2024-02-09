@@ -10,13 +10,24 @@ exec {'update/upgrade':
   provider => shell,
 }
 
-exec {'mkdir':
-  command  => 'mkdir -p /data/web_static/releases/test/ 
-  /data/web_static/shared/',
-  provider => shell,
+file {'/data':
+  ensure => directory,
+}
+file {'/data/web_static/':
+  ensure => directory,
+}
+file {'/data/web_static/releases/':
+  ensure => directory,
+}
+file {'/data/web_static/releases/test/':
+  ensure => directory,
+}
+file {'/data/web_static/shared/':
+  ensure => directory,
 }
 
 file {'/var/www/html/error_404.html':
+  ensure  => present,
   content => 'Ceci n\'est pas une page',
 }
 
@@ -29,28 +40,29 @@ $content="<html>
 </html>"
 
 file {'/data/web_static/releases/test/index.html':
+  ensure  => present,
   content => $content,
 }
 
-exec {'symbolicLink':
-  command  => 'ln -sf /data/web_static/releases/test/ /data/web_static/current',
-  provider => shell,
+file {'/data/web_static/current':
+  ensure => link,
+  target => '/data/web_static/releases/test/',
 }
 
 exec {'chown':
-  command  => 'chown -R "ubuntu:ubuntu" /data/',
+  command  => 'sudo chown -R "ubuntu:ubuntu" /data/',
   provider => shell,
 }
 
-exec {'copy':
-  command  => 'cp -a /etc/nginx/sites-available/default{,.orig}',
-  provider => shell,
-}
+# exec {'copy':
+#  command  => 'cp -a /etc/nginx/sites-available/default{,.orig}',
+# provider => shell,
+# }
 
 $config_file="server {
         listen 80 default_server;
         listen [::]:80 default_server;
-        add_header X-Served-By ${HOSTNAME};
+        add_header X-Served-By ${facts['networking']['hostname']};
         rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
         error_page 404 /error_404.html;
 
@@ -71,10 +83,10 @@ $config_file="server {
 }"
 
 file {'/etc/nginx/sites-available/default':
+  ensure  => present,
   content => $config_file,
 }
 
-exec {'restart':
-  command  => 'service nginx restart',
-  provider => shell,
+service {'nginx':
+  ensure => running,
 }
