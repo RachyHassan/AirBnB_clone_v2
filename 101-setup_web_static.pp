@@ -6,7 +6,7 @@ package {'nginx':
 }
 
 exec {'update/upgrade':
-  command => 'sudo apt-get -y update; sudo apt-get upgrade',
+  command  => 'sudo apt-get -y update; sudo apt-get upgrade',
   provider => shell,
 }
 
@@ -50,7 +50,7 @@ exec {'copy':
 $config_file="server {
         listen 80 default_server;
         listen [::]:80 default_server;
-        add_header X-Served-By $HOSTNAME;
+        add_header X-Served-By ${HOSTNAME};
         rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
         error_page 404 /error_404.html;
 

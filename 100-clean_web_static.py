@@ -14,7 +14,7 @@ def do_clean(number=0):
     if number in [0, 1]:
         number = 2
     else:
-        number =+ 1
+        number += 1
     # tail -n +{NUM} => use  -n +NUM to output starting with line NUM
     local(f'cd ./versions; ls -t | tail -n +{number} | xargs rm -rf')
     folder = '/data/web_static/releases'
