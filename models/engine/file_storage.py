@@ -61,3 +61,7 @@ class FileStorage:
             return
         key = "{}.{}".format(obj.__class__.__name__, obj.id)
         self.__objects.pop(key, None)
+
+    def close(self):
+        """Calling reload() for desearlizing the JSON file to objects"""
+        self.reload()
