@@ -1,12 +1,13 @@
 #!/usr/bin/python3
-"""Compress before sending"""
+""" A Fabric script that generates a .tgz archive from the contents of the web_static folder of AirBnB Clone repo, using the function do_pack."""
 
-from fabric.api import local
+from collections.abc import Mapping
 from datetime import datetime
+from fabric.api import local
 
 
 def do_pack():
-    """Packs the web_static folder into a tgz file"""
+    """ A function that packs the web_static folder into a tgz file"""
 
     today_date = datetime.now().strftime("%Y%m%d%H%M%S")
     filename = "versions/web_static_" + today_date + ".tgz"
