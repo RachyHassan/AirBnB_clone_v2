@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-""" A Fabric script that generates a .tgz archive from the contents of the web_static folder of AirBnB Clone repo, using the function do_pack."""
+""" A Fabric script that generates a .tgz archive
+from the contents of the web_static folder of AirBnB Clone repo,
+using the function do_pack."""
 
 from collections.abc import Mapping
 from datetime import datetime
