@@ -1,15 +1,18 @@
 #!/usr/bin/python3
-"""Compress before sending"""
+"""
+A fabric Script that distributes an archive to
+webservers, using the function do_deploy
+"""
 from fabric.api import put, sudo, env
 import os
 
 
-env.hosts = ['54.236.47.245', '100.26.156.253']
+env.hosts = ['52.91.132.212', '54.198.58.74']
 env.user = "ubuntu"
 
 
 def do_deploy(archive_path):
-    """distributes an archive to your web servers"""
+    """A function that distributes an archive to web servers"""
     if not os.path.exists(archive_path):
         return False
     try:
