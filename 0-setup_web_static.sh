@@ -7,18 +7,17 @@ apt-get -y upgrade
 apt-get -y install nginx
 
 mkdir -p /data/web_static/releases/test/ /data/web_static/shared/
-echo "Ceci n'est pas une page" > /var/www/html/error_404.html
+echo "This is not a page" > /var/www/html/error_404.html
 
-content="<html>
+echo "<html>
   <head>
   </head>
   <body>
     Holberton School
   </body>
-</html>"
-echo "$content" > /data/web_static/releases/test/index.html
+</html>" > /data/web_static/releases/test/index.html
 
-# A symbolic link /data/.../current linked to /data/.../test/ folder
+# Creating a symbolic link
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 chown -R "ubuntu:ubuntu" /data/
 cp -a /etc/nginx/sites-available/default{,.orig}
@@ -49,4 +48,5 @@ config_file="server {
 }"
 
 echo "${config_file}" > /etc/nginx/sites-available/default
+# Restart nginx
 service nginx restart
