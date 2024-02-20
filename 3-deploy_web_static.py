@@ -1,18 +1,20 @@
 #!/usr/bin/python3
-"""Compress before sending"""
+"""
+A fabric script that creates and distributes an archive
+to web servers, using the function deploy
+"""
+from datetime import datetime
 from fabric.api import local
 from fabric.operations import put, sudo, env
-from datetime import datetime
 import os
 
 
-# (using env.hosts = ['<IP web-01>', 'IP web-02'] variable in your script)
-env.hosts = ['54.236.47.245', '100.26.156.253']
+env.hosts = ['52.91.132.212', '54.198.58.74']
 env.user = "ubuntu"
 
 
 def do_pack():
-    """Packs the web_static folder into a tgz file"""
+    """A function that packs the web_static folder into a tgz file"""
 
     today_date = datetime.now().strftime("%Y%m%d%H%M%S")
     filename = "versions/web_static_" + today_date + ".tgz"
@@ -25,7 +27,7 @@ def do_pack():
 
 
 def do_deploy(archive_path):
-    """distributes an archive to your web servers"""
+    """A function that distributes an archive to your web servers"""
     if not os.path.exists(archive_path):
         return False
     try:
@@ -46,7 +48,7 @@ def do_deploy(archive_path):
 
 
 def deploy():
-    """Packs and Deploys the website in one file"""
+    """ A function that packs and Deploys the website in one file"""
     archive_path = do_pack()
     if archive_path is None:
         return False
