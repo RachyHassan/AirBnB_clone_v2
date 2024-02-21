@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Hello flask"""
+"""A script that starts a flask web Applicationk"""
 from flask import Flask, abort
 
 
@@ -9,31 +9,32 @@ app.url_map.strict_slashes = False
 
 @app.route('/')
 def hello():
-    """Prints Hello HBNB!"""
+    """A function that prints Hello HBNB!"""
     return "Hello HBNB!"
 
 
 @app.route('/hbnb')
 def hbnb():
-    """Prints HBNB"""
+    """A function that prints HBNB"""
     return "HBNB"
 
 
 @app.route('/c/<text>')
-def cisfun(text):
-    """C is fun"""
+def c_is_fun(text):
+    """A function that returns C is fun"""
     return 'C ' + text.replace("_", " ")
 
 
 @app.route('/python/', defaults={'text': 'is cool'})
 @app.route('/python/<text>')
 def python_is_fun(text='is_cool'):
-    """Python is cool"""
+    """A function that returns python is cool"""
     return 'Python ' + text.replace("_", " ")
 
 
 @app.route('/number/<int:n>')
-def is_n_number(n):
+def number_n(n):
+    """ A function that returns "n is a number". """
     return f'{n} is a number'
 
 
