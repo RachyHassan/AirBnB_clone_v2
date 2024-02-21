@@ -63,5 +63,5 @@ class FileStorage:
         self.__objects.pop(key, None)
 
     def close(self):
-        """Calling reload() for desearlizing the JSON file to objects"""
+        """Call reload() for desearlizing the JSON file to objects"""
         self.reload()
