@@ -1,5 +1,11 @@
 #!/usr/bin/python3
-"""Hello flask"""
+"""A function that starts a Flask web application
+Requirements:
+    /: display “Hello HBNB!”
+    /hbnb: display “HBNB”
+    /c/<text>: display “C ” followed by the value of the text variable
+    (replace underscore _ symbols with a space )
+"""
 from flask import Flask
 
 
@@ -9,19 +15,19 @@ app.url_map.strict_slashes = False
 
 @app.route('/')
 def hello():
-    """Prints Hello HBNB!"""
+    """A function that prints Hello HBNB! when called"""
     return "Hello HBNB!"
 
 
 @app.route('/hbnb')
 def hbnb():
-    """Prints HBNB"""
+    """A function that prints HBNB when called"""
     return "HBNB"
 
 
 @app.route('/c/<text>')
-def cisfun(text):
-    """C is fun"""
+def c_is_fun(text):
+    """a function that returns C is fun"""
     return 'C ' + text.replace("_", " ")
 
 
